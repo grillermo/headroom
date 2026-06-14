@@ -11,7 +11,6 @@ from headroom.mcp_registry.base import (
 from headroom.mcp_registry.install import (
     DEFAULT_PROXY_URL,
     build_headroom_spec,
-    build_serena_spec,
     install_everywhere,
 )
 
@@ -66,22 +65,6 @@ def test_build_spec_custom_proxy_sets_env() -> None:
 
 def test_build_spec_default_url_omits_env() -> None:
     spec = build_headroom_spec(DEFAULT_PROXY_URL)
-    assert spec.env == {}
-
-
-def test_build_serena_spec_uses_agent_context() -> None:
-    spec = build_serena_spec("codex")
-    assert spec.name == "serena"
-    assert spec.command == "uvx"
-    assert spec.args == (
-        "--from",
-        "git+https://github.com/oraios/serena",
-        "serena",
-        "start-mcp-server",
-        "--project-from-cwd",
-        "--context",
-        "codex",
-    )
     assert spec.env == {}
 
 
